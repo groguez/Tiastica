@@ -999,7 +999,7 @@ ul{list-style:none}button{cursor:pointer;font-family:inherit}
 }
 
 .cockpit-overlay[hidden] {
-  display: flex !important;
+  display: none !important;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
