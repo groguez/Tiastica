@@ -1153,6 +1153,14 @@
       activePlatformIdx = PLATFORMS_DECK.indexOf(mapped);
       console.log('[Cockpit] Active index:', activePlatformIdx, 'PLATFORMS_DECK:', PLATFORMS_DECK);
       
+      // CRITICAL: Hide/minimize Orb when cockpit opens
+      const orbNav = document.querySelector('.orb-nav');
+      if (orbNav) {
+        orbNav.setAttribute('data-state', 'latent');
+        orbNav.setAttribute('data-origin', 'latent');
+        console.log('[Cockpit] Orb set to latent state');
+      }
+      
       overlay.removeAttribute('hidden');
       console.log('[Cockpit] Overlay hidden attr removed');
 
