@@ -1006,6 +1006,72 @@
         { t: "Glow de Alerta", d: "El sistema señala en color rojo un comportamiento sospechoso o potencial fraude.", s: 2 },
         { t: "Bloqueo Preventivo", d: "Inhabilitación de combustible o alertas al centro de control para auditoría inmediata.", s: 3 }
       ]
+    },
+    // BENEFICIOS
+    ben_costos: {
+      title: "Reducción de Costos",
+      steps: [
+        { t: "Análisis de Línea Base", d: "El sistema ingesta los costos operativos históricos de los últimos 12 meses.", s: 1 },
+        { t: "Identificación de Fugas", d: "Detección automática de sobrecostos en combustible, mantenimiento y peajes.", s: 2 },
+        { t: "Proyección de Ahorros", d: "Gráfico comparativo mostrando hasta 35% de reducción de costos operativos.", s: 3 }
+      ]
+    },
+    ben_productividad: {
+      title: "Productividad Operativa",
+      steps: [
+        { t: "Benchmark Inicial", d: "Medición de KPIs actuales: viajes/día, entregas/hora, tiempo de ciclo.", s: 1 },
+        { t: "Optimización de Procesos", d: "Implementación de automatizaciones que eliminan tareas manuales repetitivas.", s: 2 },
+        { t: "Salto Productivo", d: "Dashboard mostrando incremento del 40% en productividad por chofer.", s: 3 }
+      ]
+    },
+    ben_seguridad: {
+      title: "Seguridad y Cumplimiento",
+      steps: [
+        { t: "Monitoreo de Riesgos", d: "Sensores activos detectando frenados bruscos, aceleraciones y exceso de velocidad.", s: 1 },
+        { t: "Alertas Tempranas", d: "Notificaciones preventivas que reducen accidentes en 60%.", s: 2 },
+        { t: "Certificación Normativa", d: "Reportes automáticos para cumplimiento de regulaciones de transporte.", s: 3 }
+      ]
+    },
+    ben_escala: {
+      title: "Escalabilidad Comprobada",
+      steps: [
+        { t: "Crecimiento Orgánico", d: "Arquitectura cloud que permite escalar de 10 a 1000 unidades sin cambios.", s: 1 },
+        { t: "Multi-Cliente Nativo", d: "Gestión simultánea de múltiples cuentas y operaciones independientes.", s: 2 },
+        { t: "Expansión Regional", d: "Casos de éxito: clientes que expandieron operación a 5 países usando TIASTICA.", s: 3 }
+      ]
+    },
+    // PORTAL CLIENTE
+    portal_dashboard: {
+      title: "Dashboard Ejecutivo",
+      steps: [
+        { t: "Vista 360° de Operación", d: "Panel unificado con KPIs críticos: flota activa, entregas, incidencias.", s: 1 },
+        { t: "Filtros Inteligentes", d: "Segmentación por fecha, región, cliente o tipo de unidad en tiempo real.", s: 2 },
+        { t: "Exportación de Reportes", d: "Generación de PDF/Excel personalizados para juntas directivas.", s: 3 }
+      ]
+    },
+    portal_reportes: {
+      title: "Reportes Automatizados",
+      steps: [
+        { t: "Programación de Envíos", d: "Configuración de reportes diarios/semanales/mensuales automáticos por email.", s: 1 },
+        { t: "Plantillas Personalizables", d: "Selección de métricas específicas por departamento (Operaciones, Finanzas, etc).", s: 2 },
+        { t: "Historial Accesible", d: "Archivo centralizado de todos los reportes generados con búsqueda inteligente.", s: 3 }
+      ]
+    },
+    portal_tracking: {
+      title: "Tracking en Vivo",
+      steps: [
+        { t: "Mapa Interactivo", d: "Visualización GPS de todas las unidades en movimiento con actualización cada 3 segundos.", s: 1 },
+        { t: "Búsqueda de Unidades", d: "Localización instantánea por placa, chofer o número de orden.", s: 2 },
+        { t: "Línea de Tiempo", d: "Replay histórico de rutas completas con eventos marcados (paradas, incidencias).", s: 3 }
+      ]
+    },
+    portal_config: {
+      title: "Configuración y Permisos",
+      steps: [
+        { t: "Gestión de Usuarios", d: "Creación de cuentas con roles diferenciados (Admin, Operador, Viewer).", s: 1 },
+        { t: "Geocercas Personalizadas", d: "Dibujo de zonas de interés para alertas de entrada/salida automáticas.", s: 2 },
+        { t: "Integraciones API", d: "Conexión con sistemas externos (ERP, WMS, TMS) mediante webhooks configurables.", s: 3 }
+      ]
     }
   };
 
@@ -1052,14 +1118,6 @@
     prevBtn.addEventListener('click', () => navigatePlatform(-1));
     nextBtn.addEventListener('click', () => navigatePlatform(1));
 
-    /* feature card clicks triggers drill-down (Level 2) */
-    $$('.btn-console-card').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const featureId = btn.dataset.feature;
-        drillDownFeature(featureId);
-      });
-    });
-
     /* stepper controls */
     const stepperPrevBtn = $('#stepperPrevBtn');
     const stepperNextBtn = $('#stepperNextBtn');
@@ -1086,10 +1144,21 @@
 
         document.body.style.overflow = 'hidden';
 
+        /* Bind feature card clicks AFTER overlay is visible (critical fix) */
+        $$('.btn-console-card').forEach(btn => {
+          btn.removeEventListener('click', handleFeatureClick);
+          btn.addEventListener('click', handleFeatureClick);
+        });
+
         updateCockpitView();
 
       });
     };
+    
+    function handleFeatureClick() {
+      const featureId = this.dataset.feature;
+      drillDownFeature(featureId);
+    }
   }
 
   /* Return from Cockpit to main Living Orb space */
