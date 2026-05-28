@@ -977,6 +977,7 @@ ul{list-style:none}button{cursor:pointer;font-family:inherit}
    TIASTICA V5 — IMMERSIVE COCKPIT & ONBOARDING SYSTEM
    ========================================================================== */
 
+/* TIASTICA COCKPIT v2.1 - FIX CRÍTICO: Orb + Cockpit coexistence */
 .cockpit-overlay {
   position: fixed;
   inset: 0;
@@ -992,11 +993,13 @@ ul{list-style:none}button{cursor:pointer;font-family:inherit}
   overflow: hidden;
 }
 
+/* FORCE VISIBILITY WHEN ACTIVE */
 .cockpit-overlay.is-active {
   display: flex !important;
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
+  z-index: 10002 !important;
 }
 
 .cockpit-overlay[hidden] {
