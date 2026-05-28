@@ -980,9 +980,9 @@ ul{list-style:none}button{cursor:pointer;font-family:inherit}
 .cockpit-overlay {
   position: fixed;
   inset: 0;
-  z-index: 3200;
+  z-index: 9999 !important;
   background: radial-gradient(circle at center, rgba(8, 12, 24, 0.98) 0%, rgba(4, 5, 10, 1) 100%);
-  display: flex;
+  display: none !important;
   flex-direction: column;
   padding: 1.5rem;
   opacity: 0;
@@ -993,10 +993,10 @@ ul{list-style:none}button{cursor:pointer;font-family:inherit}
 }
 
 .cockpit-overlay.is-active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
   display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 .cockpit-overlay[hidden] {
