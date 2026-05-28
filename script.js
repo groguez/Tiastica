@@ -213,12 +213,12 @@
       }
     });
 
-    /* Node clicks trigger Warp Transition to Cockpit (for first 4 platforms) */
+    /* Node clicks trigger Warp Transition to Cockpit (for ALL 6 platforms) */
     $$('.orb-nav__branches .orb-nav__node').forEach(n => {
       n.addEventListener('click', e => {
         e.preventDefault(); e.stopPropagation();
         const dest = n.dataset.section;
-        const cockpitPlatforms = ['geointeligencia', 'erp', 'ultima-milla', 'ia'];
+        const cockpitPlatforms = ['geointeligencia', 'erp', 'ultima-milla', 'ia', 'beneficios', 'portal'];
         
         if (cockpitPlatforms.includes(dest)) {
 
@@ -250,7 +250,7 @@
 
         } else {
 
-          /* Fallback for Beneficios and Portal */
+          /* Fallback for unknown sections */
           goState('latent');
 
           setTimeout(() => {
@@ -1009,20 +1009,26 @@
     }
   };
 
-  const PLATFORMS_DECK = ['geo', 'erp', 'um', 'ia'];
+  const PLATFORMS_DECK = ['geo', 'erp', 'um', 'ia', 'ben', 'portal'];
   const PLATFORMS_MAPPING = {
     'geointeligencia': 'geo',
     'geo': 'geo',
     'erp': 'erp',
     'ultima-milla': 'um',
     'um': 'um',
-    'ia': 'ia'
+    'ia': 'ia',
+    'beneficios': 'ben',
+    'ben': 'ben',
+    'portal': 'portal',
+    'portal-cliente': 'portal'
   };
   const PLATFORMS_TITLES = {
     'geo': 'Geointeligencia',
     'erp': 'ERP Transporte',
     'um': 'Última Milla',
-    'ia': 'IA Logística'
+    'ia': 'IA Logística',
+    'ben': 'Beneficios',
+    'portal': 'Portal Cliente'
   };
 
   let activePlatformIdx = 0;
@@ -1135,7 +1141,7 @@
     overlay.classList.add(`cockpit-overlay--${activePlat}`);
 
     /* Info panels left */
-    const panelIds = { geo: 'platformInfoGeo', erp: 'platformInfoErp', um: 'platformInfoUm', ia: 'platformInfoIa' };
+    const panelIds = { geo: 'platformInfoGeo', erp: 'platformInfoErp', um: 'platformInfoUm', ia: 'platformInfoIa', ben: 'platformInfoBen', portal: 'platformInfoPortal' };
     Object.keys(panelIds).forEach(k => {
       const el = $(`#${panelIds[k]}`);
       if (el) el.style.display = (k === activePlat) ? 'block' : 'none';
@@ -1143,17 +1149,17 @@
 
     /* Deck Indicators text */
     const indicatorVal = $('#deckIndicatorVal');
-    indicatorVal.textContent = `Plataforma ${activePlatformIdx + 1} de 4`;
+    indicatorVal.textContent = `Plataforma ${activePlatformIdx + 1} de 6`;
 
     /* Central Visual Simulators */
-    const simIds = { geo: 'simGeo', erp: 'simErp', um: 'simUm', ia: 'simIa' };
+    const simIds = { geo: 'simGeo', erp: 'simErp', um: 'simUm', ia: 'simIa', ben: 'simBen', portal: 'simPortal' };
     Object.keys(simIds).forEach(k => {
       const el = $(`#${simIds[k]}`);
       if (el) el.style.display = (k === activePlat) ? 'flex' : 'none';
     });
 
     /* Bottom card consoles */
-    const consoleIds = { geo: 'consoleDeckGeo', erp: 'consoleDeckErp', um: 'consoleDeckUm', ia: 'consoleDeckIa' };
+    const consoleIds = { geo: 'consoleDeckGeo', erp: 'consoleDeckErp', um: 'consoleDeckUm', ia: 'consoleDeckIa', ben: 'consoleDeckBen', portal: 'consoleDeckPortal' };
     Object.keys(consoleIds).forEach(k => {
       const el = $(`#${consoleIds[k]}`);
       if (el) el.style.display = (k === activePlat) ? 'grid' : 'none';
@@ -1274,6 +1280,19 @@
       $('#iaSimReport').style.opacity = '0';
       $('#iaSimReport').style.transform = 'translate(-50%, 10px)';
       initIaCockpitCanvas(0.1, false); // slow connection base
+    }
+    else if (platform === 'ben') {
+      $$('#benSimChart .sim-bar').forEach(b => {
+        b.style.height = '0%';
+        b.classList.remove('is-active');
+      });
+    }
+    else if (platform === 'portal') {
+      $$('.sim-portal-widget').forEach(w => {
+        w.style.opacity = '0';
+        w.style.transform = 'translateY(10px)';
+        w.classList.remove('pulse-active');
+      });
     }
   }
 
@@ -1418,6 +1437,57 @@
         initIaCockpitCanvas(0.12, true);
         rep.style.opacity = '1';
         rep.style.transform = 'translate(-50%, 0)';
+      }
+    }
+    else if (platform === 'ben') {
+      /* BENEFICIOS COMPROBADOS STEP CONTROL */
+      const chartBars = $$('#benSimChart .sim-bar');
+      
+      if (stepIdx === 0) {
+        /* Step 1: Initial state - bars at zero */
+        chartBars.forEach(b => { b.style.height = '0%'; b.classList.remove('is-active'); });
+      } 
+      else if (stepIdx === 1) {
+        /* Step 2: Bars animate to mid-height */
+        chartBars.forEach((b, idx) => {
+          b.classList.add('is-active');
+          const midHeights = ['20%', '40%', '30%', '55%', '70%', '50%'];
+          b.style.height = midHeights[idx] || '40%';
+        });
+      } 
+      else {
+        /* Step 3: Full metrics display */
+        chartBars.forEach((b, idx) => {
+          b.classList.add('is-active');
+          const finalHeights = ['35%', '60%', '45%', '80%', '95%', '70%'];
+          b.style.height = finalHeights[idx] || '60%';
+        });
+      }
+    }
+    else if (platform === 'portal') {
+      /* PORTAL CLIENTE STEP CONTROL */
+      const widgets = $$('.sim-portal-widget');
+      
+      if (stepIdx === 0) {
+        /* Step 1: Dashboard hidden */
+        widgets.forEach(w => { w.style.opacity = '0'; w.style.transform = 'translateY(10px)'; });
+      } 
+      else if (stepIdx === 1) {
+        /* Step 2: Widgets fade in sequentially */
+        widgets.forEach((w, idx) => {
+          setTimeout(() => {
+            w.style.opacity = '1';
+            w.style.transform = 'translateY(0)';
+          }, idx * 150);
+        });
+      } 
+      else {
+        /* Step 3: All widgets active with data pulse */
+        widgets.forEach(w => { 
+          w.style.opacity = '1'; 
+          w.style.transform = 'translateY(0)';
+          w.classList.add('pulse-active');
+        });
       }
     }
   }
