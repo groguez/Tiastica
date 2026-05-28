@@ -1234,9 +1234,72 @@
       if (el) el.style.display = (k === activePlat) ? 'grid' : 'none';
     });
 
+    /* ERP Modules Preview - bind click events when ERP platform is shown */
+    if (activePlat === 'erp') {
+      initERPModulesPreview();
+    }
+
     /* Trigger static / base simulation state */
     stopSimulatorAnimations();
     setupSimulatorBase(activePlat);
+  }
+
+  /* Initialize ERP Modules Preview interactivity */
+  function initERPModulesPreview() {
+    const modulesContainer = $('#erpModulesPreview');
+    if (!modulesContainer) return;
+
+    // Remove old listeners by cloning
+    const newContainer = modulesContainer.cloneNode(true);
+    modulesContainer.parentNode.replaceChild(newContainer, modulesContainer);
+
+    // Add click handlers to each module mini-card
+    $$('#erpModulesPreview .erp-module-mini').forEach(card => {
+      card.addEventListener('click', function() {
+        const moduleId = this.dataset.module;
+        
+        // Toggle active state
+        $$('#erpModulesPreview .erp-module-mini').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+
+        // Update simulator based on selected module
+        updateERPSimulatorForModule(moduleId);
+      });
+    });
+  }
+
+  /* Update ERP simulator display based on selected module */
+  function updateERPSimulatorForModule(moduleId) {
+    const moduleInfo = ERP_MODULE_DATA[moduleId];
+    if (!moduleInfo) return;
+
+    // Stop any running animations
+    stopSimulatorAnimations();
+
+    // Update simulator display with module-specific content
+    const simContainer = $('#simErp');
+    if (!simContainer) return;
+
+    // Create module detail overlay in simulator
+    let simContent = simContainer.querySelector('.module-sim-detail');
+    if (!simContent) {
+      simContent = document.createElement('div');
+      simContent.className = 'module-sim-detail';
+      simContent.style.cssText = 'position:absolute;inset:0;background:rgba(16,185,129,0.08);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;z-index:10;border-radius:12px;animation:fadeIn 0.3s;';
+      simContainer.style.position = 'relative';
+      simContainer.appendChild(simContent);
+    }
+
+    simContent.innerHTML = `
+      <div style="text-align:center;max-width:320px;">
+        <div style="font-size:42px;margin-bottom:1rem;">${moduleInfo.icon}</div>
+        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--color-erp);margin-bottom:0.75rem;">${moduleInfo.title}</h3>
+        <ul style="list-style:none;text-align:left;display:inline-block;">
+          ${moduleInfo.items.map(item => `<li style="font-size:13px;color:rgba(255,255,255,0.85);padding:6px 0;display:flex;align-items:center;gap:8px;"><span style="color:var(--color-erp);font-size:10px;">✦</span>${item}</li>`).join('')}
+        </ul>
+        <button onclick="this.closest('.module-sim-detail').remove()" style="margin-top:1.5rem;background:var(--color-erp);color:#fff;border:none;padding:8px 20px;border-radius:6px;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;">Cerrar</button>
+      </div>
+    `;
   }
 
   /* Level 2: Drill Down into feature stepper onboarding */

@@ -1,4 +1,1 @@
-```
-# No build artifacts, dependencies, or temporary files detected in changes
-# Only source files (index.html, script.js) were modified
-```
+Nothing needs to be added to .gitignore since the changes only include HTML, CSS, and JavaScript source files which should be tracked in version control.
