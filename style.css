@@ -2011,6 +2011,7 @@ body.is-warping{
   visibility:visible;
   pointer-events:auto;
   transform:scale(1);
+  display: flex !important;
 }
 
 .cockpit-overlay.state-drilled-down .cockpit-console-main{
