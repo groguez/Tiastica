@@ -996,6 +996,7 @@ ul{list-style:none}button{cursor:pointer;font-family:inherit}
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  display: flex !important;
 }
 
 .cockpit-overlay[hidden] {
