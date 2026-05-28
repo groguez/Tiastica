@@ -156,12 +156,19 @@
 
   /* Trigger Warp Speed tridimensional animation */
   window.triggerWarpSpeed = function(duration, callback) {
-    if (noMotion) { if (callback) callback(); return; }
+    console.log('[Warp] Starting warp speed for', duration, 'ms');
+    if (noMotion) { 
+      console.log('[Warp] No motion preferred, calling callback immediately');
+      if (callback) callback(); 
+      return; 
+    }
     isWarping = true;
     document.body.classList.add('is-warping');
+    console.log('[Warp] is-warping class added to body');
     setTimeout(() => {
       isWarping = false;
       document.body.classList.remove('is-warping');
+      console.log('[Warp] Warp finished, calling callback');
       if (callback) callback();
     }, duration);
   };
@@ -216,19 +223,24 @@
     /* Node clicks trigger Warp Transition to Cockpit (for ALL 6 platforms) */
     $$('.orb-nav__branches .orb-nav__node').forEach(n => {
       n.addEventListener('click', e => {
+        console.log('[NodeClick] Clicked on node:', n.dataset.section);
         e.preventDefault(); e.stopPropagation();
         const dest = n.dataset.section;
         const cockpitPlatforms = ['geointeligencia', 'erp', 'ultima-milla', 'ia', 'beneficios', 'portal'];
         
+        console.log('[NodeClick] Destination:', dest, 'Is cockpit platform:', cockpitPlatforms.includes(dest));
+        
         if (cockpitPlatforms.includes(dest)) {
 
           /* Move Orb to latent dock */
+          console.log('[NodeClick] Going to latent state');
           goState('latent');
 
           /* Scroll FIRST to real section */
           const targetSection = $(`#${dest}`);
 
           if (targetSection) {
+            console.log('[NodeClick] Scrolling to section:', dest);
             targetSection.scrollIntoView({
               behavior: noMotion ? 'auto' : 'smooth',
               block: 'start'
@@ -237,13 +249,15 @@
 
           /* Then activate Warp + Cockpit */
           setTimeout(() => {
-
+            console.log('[NodeClick] Triggering warp speed...');
             window.triggerWarpSpeed(900, () => {
-
+              console.log('[NodeClick] Warp callback executed, checking openCockpit');
               if (typeof window.openCockpit === 'function') {
+                console.log('[NodeClick] Calling openCockpit with:', dest);
                 window.openCockpit(dest);
+              } else {
+                console.error('[NodeClick] openCockpit function NOT FOUND');
               }
-
             });
 
           }, 550);
@@ -251,6 +265,7 @@
         } else {
 
           /* Fallback for unknown sections */
+          console.log('[NodeClick] Unknown section, using fallback');
           goState('latent');
 
           setTimeout(() => {
