@@ -1248,6 +1248,13 @@
     /* Trigger static / base simulation state */
     stopSimulatorAnimations();
     setupSimulatorBase(activePlat);
+    
+    /* DEBUG: Final verification */
+    console.log('[Cockpit] Final check - Overlay display:', overlay.style.display);
+    console.log('[Cockpit] Final check - Overlay computed:', window.getComputedStyle(overlay).display);
+    console.log('[Cockpit] Final check - Overlay hidden attr:', overlay.hasAttribute('hidden'));
+    console.log('[Cockpit] Final check - Active platform:', activePlat);
+    console.log('[Cockpit] Final check - simErp display:', $('#simErp') ? $('#simErp').style.display : 'NOT FOUND');
   }
 
   /* Initialize ERP Modules Preview interactivity */
