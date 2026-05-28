@@ -1154,8 +1154,8 @@
       console.log('[Cockpit] Active index:', activePlatformIdx, 'PLATFORMS_DECK:', PLATFORMS_DECK);
       
       // 1. AGREGAR CLASE AL BODY PARA COEXISTENCIA CON ORB (CSS maneja la posición)
-      document.body.classList.add('cockpit-open');
-      console.log('[Cockpit] Body class cockpit-open added');
+      document.body.classList.add('cockpit-active');
+      console.log('[Cockpit] Body class cockpit-active added');
       
       // 2. REMOVER HIDDEN Y AÑADIR CLASES DE ACTIVACION
       overlay.removeAttribute('hidden');
@@ -1191,8 +1191,8 @@
     if (!overlay) return;
     
     // REMOVER CLASE DEL BODY PARA RESTAURAR ORB
-    document.body.classList.remove('cockpit-open');
-    console.log('[Cockpit] Body class cockpit-open removed');
+    document.body.classList.remove('cockpit-active');
+    console.log('[Cockpit] Body class cockpit-active removed');
     
     overlay.classList.remove('is-active');
     overlay.setAttribute('aria-hidden', 'true');
