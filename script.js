@@ -1153,30 +1153,11 @@
       activePlatformIdx = PLATFORMS_DECK.indexOf(mapped);
       console.log('[Cockpit] Active index:', activePlatformIdx, 'PLATFORMS_DECK:', PLATFORMS_DECK);
       
-      // 1. FORZAR VISIBILIDAD DEL COCKPIT CON ESTILOS EN LÍNEA (Máxima prioridad)
-      overlay.style.display = 'flex';
-      overlay.style.visibility = 'visible';
-      overlay.style.opacity = '1';
-      overlay.style.zIndex = '2147483647'; // Máximo posible
-      overlay.style.position = 'fixed';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100%';
-      overlay.style.height = '100%';
-      console.log('[Cockpit] Overlay inline styles forced');
+      // 1. AGREGAR CLASE AL BODY PARA COEXISTENCIA CON ORB (CSS maneja la posición)
+      document.body.classList.add('cockpit-open');
+      console.log('[Cockpit] Body class cockpit-open added');
       
-      // 2. MINIMIZAR EL ORB PARA QUE NO COMPITA
-      const orbNav = document.querySelector('.orb-nav');
-      if (orbNav) {
-        orbNav.setAttribute('data-state', 'latent');
-        orbNav.setAttribute('data-origin', 'latent');
-        orbNav.style.zIndex = '0';
-        orbNav.style.pointerEvents = 'none';
-        orbNav.style.opacity = '0.2';
-        console.log('[Cockpit] Orb set to latent and minimized');
-      }
-      
-      // 3. REMOVER HIDDEN Y AÑADIR CLASES
+      // 2. REMOVER HIDDEN Y AÑADIR CLASES DE ACTIVACION
       overlay.removeAttribute('hidden');
       console.log('[Cockpit] Overlay hidden attr removed');
 
@@ -1208,6 +1189,10 @@
   function drillUpToCosmos() {
     const overlay = $('#cockpitOverlay');
     if (!overlay) return;
+    
+    // REMOVER CLASE DEL BODY PARA RESTAURAR ORB
+    document.body.classList.remove('cockpit-open');
+    console.log('[Cockpit] Body class cockpit-open removed');
     
     overlay.classList.remove('is-active');
     overlay.setAttribute('aria-hidden', 'true');
