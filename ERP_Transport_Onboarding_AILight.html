@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GM Transport ERP · Software Para Transporte | TIASTICA</title>
+<meta name="description" content="GM Transport Software® es el ERP en la nube más completo para empresas de transporte de carga. Tráfico, Facturación, GPS, Dashcam IA y más.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#E8881A;
+  --orange-light:#F5A623;
+  --orange-pale:#FFF3E0;
+  --dark:#1A1A1A;
+  --dark2:#2D2D2D;
+  --gray:#555;
+  --gray-light:#888;
+  --bg:#F7F6F3;
+  --white:#FFFFFF;
+  --border:#E0DDD5;
+  --red:#C0392B;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--white);overflow-x:hidden;}
+
+/* PROGRESS BAR */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--orange);width:0%;z-index:9999;transition:width 0.3s;}
+
+/* NAV */
+nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(26,26,26,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(232,136,26,0.2);padding:12px 40px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo-icon{width:36px;height:36px;background:var(--orange);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;color:white;letter-spacing:-0.5px;}
+.nav-brand{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;letter-spacing:0.5px;}
+.nav-brand span{color:var(--orange);}
+.nav-steps{display:flex;gap:6px;}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all 0.3s;}
+.nav-dot.active{background:var(--orange);transform:scale(1.3);}
+.nav-dot.done{background:rgba(232,136,26,0.5);}
+.nav-cta{background:var(--orange);color:white;border:none;padding:8px 20px;border-radius:6px;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.2s;}
+.nav-cta:hover{background:var(--orange-light);transform:translateY(-1px);}
+
+/* SECTIONS */
+section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 40px 60px;position:relative;overflow:hidden;}
+section.light{background:var(--white);color:var(--dark);}
+section.gray-bg{background:var(--bg);color:var(--dark);}
+section.dark-section{background:var(--dark);}
+section.dark2{background:var(--dark2);}
+
+.section-label{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:12px;}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(36px,5vw,62px);font-weight:800;line-height:1.05;letter-spacing:-0.5px;}
+.section-sub{font-size:17px;font-weight:400;line-height:1.7;opacity:0.75;max-width:640px;margin-top:16px;}
+
+.content-wrap{max-width:1100px;margin:0 auto;width:100%;}
+
+/* HERO */
+#hero{min-height:100vh;background:#111;display:flex;align-items:center;padding:100px 40px 60px;}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1600&q=60') center/cover no-repeat;opacity:0.15;}
+.hero-accent{position:absolute;bottom:0;left:0;right:0;height:300px;background:linear-gradient(transparent,#111);}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(232,136,26,0.15);border:1px solid rgba(232,136,26,0.4);border-radius:100px;padding:6px 16px;font-size:13px;color:var(--orange);margin-bottom:24px;}
+.hero-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--orange);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(48px,7vw,90px);font-weight:800;line-height:0.95;letter-spacing:-1px;max-width:800px;}
+.hero-title .accent{color:var(--orange);}
+.hero-sub{font-size:20px;font-weight:300;line-height:1.6;opacity:0.8;max-width:560px;margin:24px 0 40px;}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
+.btn-primary{background:var(--orange);color:white;border:none;padding:14px 32px;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:600;font-size:16px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-primary:hover{background:var(--orange-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,136,26,0.3);}
+.btn-outline{background:transparent;color:white;border:1px solid rgba(255,255,255,0.3);padding:14px 32px;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:500;font-size:16px;cursor:pointer;transition:all 0.2s;}
+.btn-outline:hover{border-color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.05);}
+.hero-flags{display:flex;gap:12px;margin-top:40px;align-items:center;}
+.flag-tag{display:flex;align-items:center;gap:6px;font-size:13px;opacity:0.6;font-weight:500;}
+
+/* STEP INDICATOR */
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--orange);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:white;margin-bottom:20px;flex-shrink:0;}
+
+/* PROFILE SELECTOR */
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-top:40px;}
+.profile-card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all 0.25s;color:var(--dark);}
+.profile-card:hover{border-color:var(--orange);transform:translateY(-4px);box-shadow:0 12px 32px rgba(232,136,26,0.15);}
+.profile-card.selected{border-color:var(--orange);background:var(--orange-pale);}
+.profile-icon{font-size:36px;margin-bottom:12px;display:block;}
+.profile-card h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;line-height:1.2;}
+.profile-card p{font-size:12px;color:var(--gray);margin-top:6px;line-height:1.4;}
+
+/* PAIN POINTS */
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:40px;}
+.pain-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:32px;position:relative;overflow:hidden;}
+.pain-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--orange);}
+.pain-before{font-size:13px;color:var(--gray-light);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+.pain-text{font-size:17px;font-weight:500;line-height:1.5;}
+.pain-after{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:14px;color:var(--orange);}
+.pain-after::before{content:'→';font-size:18px;}
+
+/* MODULES */
+.modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:40px;}
+.module-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:all 0.25s;color:var(--dark);}
+.module-card:hover{border-color:var(--orange);transform:translateY(-3px);box-shadow:0 8px 24px rgba(232,136,26,0.12);}
+.module-card.active{border-color:var(--orange);background:var(--orange-pale);}
+.module-icon{width:44px;height:44px;border-radius:10px;background:var(--orange);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;}
+.module-card h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;}
+.module-card p{font-size:12px;color:var(--gray);margin-top:4px;line-height:1.4;}
+
+.module-detail{background:var(--orange-pale);border:1px solid rgba(232,136,26,0.3);border-radius:12px;padding:32px;margin-top:24px;display:none;animation:fadeIn 0.3s;}
+.module-detail.show{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.module-detail h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:26px;color:var(--dark);margin-bottom:12px;}
+.module-detail ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;}
+.module-detail li{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--dark2);}
+.module-detail li::before{content:'✦';color:var(--orange);font-size:10px;flex-shrink:0;}
+
+/* GPS */
+.gps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:40px;}
+.gps-card{border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px;display:flex;gap:16px;align-items:flex-start;transition:all 0.25s;}
+.gps-card:hover{border-color:var(--orange);background:rgba(232,136,26,0.06);}
+.gps-num{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;color:var(--orange);line-height:1;flex-shrink:0;opacity:0.4;}
+.gps-content h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:19px;margin-bottom:6px;}
+.gps-content p{font-size:14px;opacity:0.7;line-height:1.5;}
+
+/* DASHCAM */
+.dash-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:32px;}
+.dash-feat{background:rgba(255,255,255,0.05);border-radius:10px;padding:20px;border:1px solid rgba(255,255,255,0.07);}
+.dash-feat-icon{font-size:24px;margin-bottom:8px;}
+.dash-feat h5{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;margin-bottom:4px;}
+.dash-feat p{font-size:12px;opacity:0.65;line-height:1.4;}
+.alert-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+.alert-tag{background:rgba(232,136,26,0.15);border:1px solid rgba(232,136,26,0.35);border-radius:100px;padding:6px 16px;font-size:13px;color:var(--orange);}
+
+/* PLANS */
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:40px;}
+.plan-card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all 0.25s;color:var(--dark);}
+.plan-card:hover{transform:translateY(-4px);border-color:var(--orange);}
+.plan-card.featured{border-color:var(--orange);background:var(--orange-pale);}
+.plan-card.featured .plan-badge{display:inline-block;}
+.plan-badge{display:none;background:var(--orange);color:white;font-size:11px;font-weight:700;padding:3px 12px;border-radius:100px;margin-bottom:10px;letter-spacing:0.5px;}
+.plan-name{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;}
+.plan-desc{font-size:12px;color:var(--gray);margin-top:6px;line-height:1.4;}
+.plan-units{font-size:13px;color:var(--orange);font-weight:600;margin-top:12px;}
+
+/* VERSIONS TABLE */
+.versions-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.vtab{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:8px 20px;font-size:14px;cursor:pointer;transition:all 0.2s;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;}
+.vtab.active{background:var(--orange);border-color:var(--orange);}
+.vtab:hover:not(.active){border-color:rgba(232,136,26,0.5);}
+
+/* FORM */
+.form-wrap{background:var(--white);border-radius:16px;padding:48px;max-width:680px;margin:40px auto 0;color:var(--dark);}
+.form-progress{display:flex;gap:8px;margin-bottom:32px;}
+.fp-step{height:4px;flex:1;background:var(--border);border-radius:2px;transition:all 0.4s;}
+.fp-step.done{background:var(--orange);}
+.form-step{display:none;}
+.form-step.active{display:block;animation:fadeIn 0.3s;}
+.form-step h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:28px;margin-bottom:6px;}
+.form-step p{font-size:15px;color:var(--gray);margin-bottom:24px;}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:var(--dark2);}
+.form-group input,.form-group select{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;font-family:'Outfit',sans-serif;font-size:15px;background:var(--white);color:var(--dark);transition:border-color 0.2s;outline:none;}
+.form-group input:focus,.form-group select:focus{border-color:var(--orange);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;}
+.check-item{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;}
+.check-item input{width:16px;height:16px;accent-color:var(--orange);}
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;}
+.btn-next{background:var(--orange);color:white;border:none;padding:12px 32px;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:all 0.2s;}
+.btn-next:hover{background:var(--orange-light);}
+.btn-back{background:none;border:1.5px solid var(--border);padding:10px 24px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:15px;cursor:pointer;color:var(--gray);}
+.success-msg{text-align:center;padding:24px 0;}
+.success-icon{font-size:56px;margin-bottom:16px;display:block;}
+.success-msg h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;color:var(--dark);}
+.success-msg p{color:var(--gray);margin-top:8px;font-size:15px;line-height:1.6;}
+.whatsapp-btn{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:white;padding:14px 28px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;margin-top:20px;transition:all 0.2s;}
+.whatsapp-btn:hover{background:#1ea952;transform:translateY(-2px);}
+
+/* AI CHAT */
+#chat-btn{position:fixed;bottom:30px;right:30px;width:60px;height:60px;border-radius:50%;background:var(--orange);border:none;cursor:pointer;z-index:500;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 20px rgba(232,136,26,0.4);transition:all 0.3s;animation:bounce 3s 2s infinite;}
+#chat-btn:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(232,136,26,0.5);}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+#chat-badge{position:absolute;top:-4px;right:-4px;width:20px;height:20px;background:#E74C3C;border-radius:50%;font-size:11px;font-weight:700;color:white;display:flex;align-items:center;justify-content:center;}
+#chat-window{position:fixed;bottom:104px;right:30px;width:360px;height:520px;background:var(--white);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.25);z-index:500;display:flex;flex-direction:column;overflow:hidden;transform:scale(0) translateY(20px);transform-origin:bottom right;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);opacity:0;}
+#chat-window.open{transform:scale(1) translateY(0);opacity:1;}
+.chat-header{background:var(--orange);padding:16px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.chat-avatar{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;color:white;}
+.chat-header-info h4{font-weight:600;font-size:15px;color:white;}
+.chat-header-info p{font-size:12px;color:rgba(255,255,255,0.75);}
+.chat-status{display:flex;align-items:center;gap:5px;}
+.chat-status::before{content:'';width:7px;height:7px;border-radius:50%;background:#4CD964;}
+.chat-close{margin-left:auto;background:rgba(255,255,255,0.2);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+.msg{max-width:82%;word-wrap:break-word;animation:fadeIn 0.2s;}
+.msg.bot{align-self:flex-start;}
+.msg.user{align-self:flex-end;}
+.msg-bubble{padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.5;}
+.msg.bot .msg-bubble{background:#F0F0EE;color:var(--dark);border-bottom-left-radius:4px;}
+.msg.user .msg-bubble{background:var(--orange);color:white;border-bottom-right-radius:4px;}
+.msg-name{font-size:11px;color:var(--gray-light);margin-bottom:4px;}
+.quick-replies{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 12px;}
+.qr{background:white;border:1.5px solid var(--orange);color:var(--orange);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif;}
+.qr:hover{background:var(--orange);color:white;}
+.typing-indicator{display:flex;align-items:center;gap:5px;padding:10px 14px;background:#F0F0EE;border-radius:12px;border-bottom-left-radius:4px;width:fit-content;}
+.typing-dot{width:7px;height:7px;border-radius:50%;background:var(--gray-light);animation:typing 1.2s infinite;}
+.typing-dot:nth-child(2){animation-delay:0.2s;}
+.typing-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.chat-input-area{padding:12px 16px;border-top:1px solid #E8E8E8;display:flex;gap:8px;background:white;flex-shrink:0;}
+#chat-input{flex:1;border:1.5px solid #E0DDD5;border-radius:8px;padding:9px 14px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;background:white;color:var(--dark);}
+#chat-input:focus{border-color:var(--orange);}
+#chat-send{background:var(--orange);border:none;color:white;width:36px;height:36px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+#chat-send:hover{background:var(--orange-light);}
+
+/* SOCIAL PROOF */
+.sectors{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+.sector-tag{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:100px;padding:8px 18px;font-size:14px;font-weight:500;transition:all 0.2s;cursor:default;}
+.sector-tag:hover{background:rgba(232,136,26,0.12);border-color:rgba(232,136,26,0.4);color:var(--orange);}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;margin-top:48px;}
+.stat-item{text-align:center;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:800;color:var(--orange);line-height:1;}
+.stat-label{font-size:14px;opacity:0.65;margin-top:4px;}
+
+/* CANBUS */
+.canbus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:32px;}
+.canbus-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px;text-align:center;}
+.canbus-val{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;color:var(--orange);}
+.canbus-unit{font-size:13px;color:var(--gray-light);}
+.canbus-label{font-size:14px;font-weight:500;margin-top:4px;}
+
+/* APPS */
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:40px;}
+.app-card{border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:28px;transition:all 0.25s;}
+.app-card:hover{border-color:var(--orange);transform:translateY(-4px);}
+.app-icon{width:52px;height:52px;background:var(--orange);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px;}
+.app-badge{display:inline-block;background:rgba(232,136,26,0.2);color:var(--orange);font-size:11px;font-weight:700;padding:2px 10px;border-radius:100px;letter-spacing:1px;margin-bottom:8px;}
+.app-card h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;margin-bottom:6px;}
+.app-card p{font-size:14px;opacity:0.7;line-height:1.5;}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.25,0.8,0.25,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+
+/* FOOTER */
+footer{background:#111;padding:48px 40px;border-top:1px solid rgba(255,255,255,0.06);}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;}
+.footer-brand{font-family:'Barlow Condensed',sans-serif;}
+.footer-brand h3{font-size:22px;font-weight:800;margin-bottom:8px;}
+.footer-brand h3 span{color:var(--orange);}
+.footer-brand p{font-size:13px;opacity:0.5;line-height:1.6;}
+.footer-col h5{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:1px;color:var(--orange);margin-bottom:14px;}
+.footer-col a{display:block;color:rgba(255,255,255,0.55);font-size:13px;text-decoration:none;margin-bottom:8px;transition:color 0.2s;}
+.footer-col a:hover{color:white;}
+.footer-bottom{max-width:1100px;margin:32px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;font-size:12px;opacity:0.4;}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">ERP</div>
+    <div class="nav-brand">GM<span>Transport</span> Software®</div>
+  </div>
+  <div class="nav-steps" id="nav-dots"></div>
+  <button class="nav-cta" onclick="scrollToForm()">Quiero mi Demo →</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="content-wrap" style="position:relative;z-index:1">
+    <div class="hero-badge">Sistema activo en México · USA · Perú</div>
+    <h1 class="hero-title reveal">La plataforma ERP<br>más completa para<br><span class="accent">empresas de transporte</span></h1>
+    <p class="hero-sub reveal reveal-delay-1">Gestión operativa, facturación electrónica, rastreo satelital y dashcam con IA. Todo integrado, todo en la nube, desde cualquier dispositivo.</p>
+    <div class="hero-ctas reveal reveal-delay-2">
+      <button class="btn-primary" onclick="scrollToSection('perfil')">Descubre tu solución →</button>
+      <button class="btn-outline" onclick="scrollToSection('modulos')">Ver módulos</button>
+    </div>
+    <div class="hero-flags reveal reveal-delay-3">
+      <span class="flag-tag">🇲🇽 México</span>
+      <span style="opacity:0.2;margin:0 4px">|</span>
+      <span class="flag-tag">🇺🇸 Estados Unidos</span>
+      <span style="opacity:0.2;margin:0 4px">|</span>
+      <span class="flag-tag">🇵🇪 Perú</span>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 1: PERFIL -->
+<section id="perfil" class="light">
+  <div class="content-wrap">
+    <div class="step-num">1</div>
+    <div class="section-label reveal">Identifica tu operación</div>
+    <h2 class="section-title reveal" style="color:var(--dark)">¿Cómo es<br>tu empresa?</h2>
+    <p class="section-sub reveal" style="color:var(--gray)">Selecciona tu perfil para personalizar la experiencia y descubrir qué módulos son ideales para ti.</p>
+    <div class="profile-grid" id="profile-grid">
+      <div class="profile-card reveal" onclick="selectProfile(this,'flotilla')" data-profile="flotilla">
+        <span class="profile-icon">🚛</span>
+        <h3>Transportista con flotilla</h3>
+        <p>5 o más unidades propias, viajes nacionales y locales</p>
+      </div>
+      <div class="profile-card reveal reveal-delay-1" onclick="selectProfile(this,'agente')" data-profile="agente">
+        <span class="profile-icon">🏢</span>
+        <h3>Agente de carga</h3>
+        <p>Operador logístico, coordinados o subcontratación</p>
+      </div>
+      <div class="profile-card reveal reveal-delay-2" onclick="selectProfile(this,'paqueteria')" data-profile="paqueteria">
+        <span class="profile-icon">📦</span>
+        <h3>Paquetería / Última milla</h3>
+        <p>Mensajería, guías, recolección y entrega a domicilio</p>
+      </div>
+      <div class="profile-card reveal reveal-delay-3" onclick="selectProfile(this,'pemex')" data-profile="pemex">
+        <span class="profile-icon">⛽</span>
+        <h3>PEMEX / Volumétricos</h3>
+        <p>Transporte de combustibles y materiales especializados</p>
+      </div>
+      <div class="profile-card reveal" onclick="selectProfile(this,'portuario')" data-profile="portuario">
+        <span class="profile-icon">🚢</span>
+        <h3>Operación portuaria</h3>
+        <p>Contenedores, patios y movimientos en puerto</p>
+      </div>
+      <div class="profile-card reveal reveal-delay-1" onclick="selectProfile(this,'hombre_camion')" data-profile="hombre_camion">
+        <span class="profile-icon">👤</span>
+        <h3>Hombre Camión</h3>
+        <p>1 a 10 unidades, operador independiente o permisionario</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 2: DOLORES -->
+<section id="dolores" class="dark-section">
+  <div class="content-wrap">
+    <div class="step-num">2</div>
+    <div class="section-label reveal">Reconoce el problema</div>
+    <h2 class="section-title reveal">Sin ERP,<br>la operación <span style="color:var(--orange)">se pierde</span></h2>
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-before">Sin ERP</div>
+        <p class="pain-text">"Viajes, rutas y liquidaciones dispersos en hojas de Excel y WhatsApp"</p>
+        <div class="pain-after">Control total de tráfico desde un solo sistema</div>
+      </div>
+      <div class="pain-card reveal reveal-delay-1">
+        <div class="pain-before">Sin GPS integrado</div>
+        <p class="pain-text">"No sé dónde están mis unidades, ni cuándo llegan a destino"</p>
+        <div class="pain-after">Rastreo en tiempo real con estimación Just-in-Time</div>
+      </div>
+      <div class="pain-card reveal reveal-delay-2">
+        <div class="pain-before">Sin facturación digital</div>
+        <p class="pain-text">"Facturas manuales, errores en el SAT y cobranza que se olvida"</p>
+        <div class="pain-after">Timbrado CFDI automático, cobranza y control de saldos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 3: MÓDULOS -->
+<section id="modulos" class="gray-bg">
+  <div class="content-wrap">
+    <div class="step-num">3</div>
+    <div class="section-label reveal">La solución</div>
+    <h2 class="section-title reveal" style="color:var(--dark)">Módulos del<br>ERP GM Transport</h2>
+    <p class="section-sub reveal" style="color:var(--gray)">Haz clic en cualquier módulo para ver sus funciones detalladas.</p>
+    <div class="modules-grid" id="modules-grid">
+      <div class="module-card reveal" onclick="showModule('trafico')">
+        <div class="module-icon">🚛</div>
+        <h4>Tráfico</h4>
+        <p>Control logístico integral de operaciones</p>
+      </div>
+      <div class="module-card reveal reveal-delay-1" onclick="showModule('facturacion')">
+        <div class="module-icon">🧾</div>
+        <h4>Facturación</h4>
+        <p>CFDI 4.0 automático ante el SAT</p>
+      </div>
+      <div class="module-card reveal reveal-delay-2" onclick="showModule('cobranza')">
+        <div class="module-icon">💰</div>
+        <h4>Cobranza</h4>
+        <p>Recuperación de cartera y saldos</p>
+      </div>
+      <div class="module-card reveal" onclick="showModule('bancos')">
+        <div class="module-icon">🏦</div>
+        <h4>Bancos</h4>
+        <p>Control financiero y conciliación</p>
+      </div>
+      <div class="module-card reveal reveal-delay-1" onclick="showModule('cxp')">
+        <div class="module-icon">💳</div>
+        <h4>Cuentas por Pagar</h4>
+        <p>Pagos a proveedores y gastos</p>
+      </div>
+      <div class="module-card reveal reveal-delay-2" onclick="showModule('mantenimiento')">
+        <div class="module-icon">🔧</div>
+        <h4>Mantenimiento</h4>
+        <p>Servicios preventivos y correctivos</p>
+      </div>
+      <div class="module-card reveal" onclick="showModule('llantas')">
+        <div class="module-icon">🔄</div>
+        <h4>Control de Llantas</h4>
+        <p>Vida útil y reemplazos por km</p>
+      </div>
+      <div class="module-card reveal reveal-delay-1" onclick="showModule('inventario')">
+        <div class="module-icon">📦</div>
+        <h4>Inventario</h4>
+        <p>Refacciones, compras y equipo</p>
+      </div>
+      <div class="module-card reveal reveal-delay-2" onclick="showModule('reportes')">
+        <div class="module-icon">📈</div>
+        <h4>Reportes Gerenciales</h4>
+        <p>Inteligencia para toma de decisiones</p>
+      </div>
+    </div>
+    <div class="module-detail" id="module-detail"></div>
+  </div>
+</section>
+
+<!-- PASO 4: GPS -->
+<section id="gps" class="dark-section">
+  <div class="content-wrap">
+    <div class="step-num">4</div>
+    <div class="section-label reveal">GPS + ERP = Control Total</div>
+    <h2 class="section-title reveal">Rastreo Satelital<br><span style="color:var(--orange)">integrado al ERP</span></h2>
+    <p class="section-sub reveal">Tecnología 4G · Monitoreo 24/7 · Alianza ANERPV. Cuando el GPS habla con el ERP, tu operación se automatiza.</p>
+    <div class="gps-grid">
+      <div class="gps-card reveal">
+        <div class="gps-num">01</div>
+        <div class="gps-content"><h4>Geocercas Automáticas</h4><p>Entradas y salidas de zonas accionan actualizaciones automáticas de viaje en tiempo real.</p></div>
+      </div>
+      <div class="gps-card reveal reveal-delay-1">
+        <div class="gps-num">02</div>
+        <div class="gps-content"><h4>Odómetros Actualizados</h4><p>Km reales por viaje para programar mantenimientos, reemplazo de llantas y niveles exactos.</p></div>
+      </div>
+      <div class="gps-card reveal reveal-delay-2">
+        <div class="gps-num">03</div>
+        <div class="gps-content"><h4>Estatus Automático</h4><p>El viaje actualiza su estatus solo cuando el GPS detecta entrada/salida de geocercas.</p></div>
+      </div>
+      <div class="gps-card reveal">
+        <div class="gps-num">04</div>
+        <div class="gps-content"><h4>Georutas</h4><p>Trayectos autorizados para cada conductor. Alertas automáticas si se desvía de la ruta.</p></div>
+      </div>
+      <div class="gps-card reveal reveal-delay-1">
+        <div class="gps-num">05</div>
+        <div class="gps-content"><h4>Pantalla Aeropuerto</h4><p>Vista en tiempo real del % de avance, demoras y estatus de todos los viajes del día.</p></div>
+      </div>
+      <div class="gps-card reveal reveal-delay-2">
+        <div class="gps-num">06</div>
+        <div class="gps-content"><h4>Usuario Espejo</h4><p>Tus clientes pueden ver sus unidades en tiempo real con permisos controlados por ti.</p></div>
+      </div>
+      <div class="gps-card reveal">
+        <div class="gps-num">07</div>
+        <div class="gps-content"><h4>Estimación Just-in-Time</h4><p>Alertas de congestión y accidentes para ajustar tiempos de entrega con precisión.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 5: DASHCAM -->
+<section id="dashcam" class="dark2">
+  <div class="content-wrap">
+    <div class="step-num">5</div>
+    <div class="section-label reveal">Video Telemática</div>
+    <h2 class="section-title reveal">Dashcam con<br><span style="color:var(--orange)">Inteligencia Artificial</span></h2>
+    <p class="section-sub reveal">Cámara dual Full HD con Machine Vision para detectar conducción de riesgo y proteger tu flotilla.</p>
+    <div class="alert-tags reveal">
+      <span class="alert-tag">📱 Uso de teléfono</span>
+      <span class="alert-tag">🎗 Cinturón de seguridad</span>
+      <span class="alert-tag">🚬 Fumando</span>
+      <span class="alert-tag">🍔 Alimentos/bebidas</span>
+      <span class="alert-tag">😴 Conducción distraída</span>
+    </div>
+    <div class="dash-features">
+      <div class="dash-feat reveal">
+        <div class="dash-feat-icon">🎥</div>
+        <h5>Full HD 1080p + 720p</h5>
+        <p>Carretera y cabina simultáneo con visión nocturna y gran angular</p>
+      </div>
+      <div class="dash-feat reveal reveal-delay-1">
+        <div class="dash-feat-icon">☁️</div>
+        <h5>30 días en la nube</h5>
+        <p>Video almacenado online accesible en cualquier momento por el administrador</p>
+      </div>
+      <div class="dash-feat reveal reveal-delay-2">
+        <div class="dash-feat-icon">📡</div>
+        <h5>Módem 4G integrado</h5>
+        <p>Video en vivo, administración remota y actualizaciones automáticas de firmware</p>
+      </div>
+      <div class="dash-feat reveal">
+        <div class="dash-feat-icon">💾</div>
+        <h5>Hasta 512 GB</h5>
+        <p>Grabación local de 7 días hasta 1 mes sin depender de la nube</p>
+      </div>
+      <div class="dash-feat reveal reveal-delay-1">
+        <div class="dash-feat-icon">📊</div>
+        <h5>Evaluación de conductor</h5>
+        <p>Scorecard por operador con historial de eventos y retroalimentación</p>
+      </div>
+      <div class="dash-feat reveal reveal-delay-2">
+        <div class="dash-feat-icon">🔌</div>
+        <h5>4 cámaras auxiliares</h5>
+        <p>Conecta hasta 4 cámaras adicionales para visibilidad total del vehículo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 6: CANBUS -->
+<section id="canbus" class="dark-section">
+  <div class="content-wrap">
+    <div class="step-num">6</div>
+    <div class="section-label reveal">Diagnóstico vehicular</div>
+    <h2 class="section-title reveal">CANBUS — Lo que<br>tu motor <span style="color:var(--orange)">te dice</span></h2>
+    <p class="section-sub reveal">Lector de datos del puerto OBD para análisis de rendimiento por unidad y por ruta.</p>
+    <div class="canbus-grid">
+      <div class="canbus-card reveal">
+        <div class="canbus-val" id="temp-val">87°</div>
+        <div class="canbus-unit">Celsius</div>
+        <div class="canbus-label">Temp. Refrigerante</div>
+      </div>
+      <div class="canbus-card reveal reveal-delay-1">
+        <div class="canbus-val" id="rpm-val">1,420</div>
+        <div class="canbus-unit">RPM</div>
+        <div class="canbus-label">Revoluciones</div>
+      </div>
+      <div class="canbus-card reveal reveal-delay-2">
+        <div class="canbus-val" id="pedal-val">34%</div>
+        <div class="canbus-unit">Ángulo</div>
+        <div class="canbus-label">Pedal acelerador</div>
+      </div>
+      <div class="canbus-card reveal">
+        <div class="canbus-val" id="comb-val">3.2</div>
+        <div class="canbus-unit">km/litro</div>
+        <div class="canbus-label">Rendimiento</div>
+      </div>
+      <div class="canbus-card reveal reveal-delay-1">
+        <div class="canbus-val" id="vel-val">72</div>
+        <div class="canbus-unit">km/h</div>
+        <div class="canbus-label">Velocidad promedio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 7: VERSIONES -->
+<section id="versiones" class="light">
+  <div class="content-wrap">
+    <div class="step-num">7</div>
+    <div class="section-label reveal">Planes y versiones</div>
+    <h2 class="section-title reveal" style="color:var(--dark)">Elige la versión<br>para tu negocio</h2>
+    <div class="plans-grid">
+      <div class="plan-card reveal">
+        <div class="plan-badge">BÁSICO</div>
+        <div class="plan-name">LITE</div>
+        <div class="plan-desc">Para operaciones en crecimiento con necesidades básicas de tráfico y facturación</div>
+        <div class="plan-units">Tráfico · Facturación · Cobranza</div>
+      </div>
+      <div class="plan-card reveal reveal-delay-1">
+        <div class="plan-badge">LOGÍSTICA</div>
+        <div class="plan-name">AGENTE</div>
+        <div class="plan-desc">Para agentes de carga y operadores logísticos con manejo de permisionarios</div>
+        <div class="plan-units">+ Bancos · CxP · Indicadores</div>
+      </div>
+      <div class="plan-card featured reveal reveal-delay-2">
+        <div class="plan-badge">MÁS POPULAR</div>
+        <div class="plan-name">GESTIÓN</div>
+        <div class="plan-desc">Para transportistas con flota propia que necesitan control total de unidades</div>
+        <div class="plan-units">+ Mantenimiento · Llantas</div>
+      </div>
+      <div class="plan-card reveal">
+        <div class="plan-badge">COMPLETO</div>
+        <div class="plan-name">PREMIUM</div>
+        <div class="plan-desc">Todos los módulos principales más herramientas avanzadas de análisis</div>
+        <div class="plan-units">Todos los módulos principales</div>
+      </div>
+      <div class="plan-card reveal reveal-delay-1">
+        <div class="plan-badge">MÁXIMO</div>
+        <div class="plan-name">PRO</div>
+        <div class="plan-desc">Con módulo de contabilidad integrado para operaciones financieras avanzadas</div>
+        <div class="plan-units">+ Contabilidad integrada</div>
+      </div>
+      <div class="plan-card reveal reveal-delay-2" style="border-color:var(--red);">
+        <div class="plan-badge" style="background:var(--red);">INDEPENDIENTE</div>
+        <div class="plan-name" style="color:var(--red)">HOMBRE<br>CAMIÓN</div>
+        <div class="plan-desc">Para operadores con 1 a 10 unidades motrices. Carta Porte incluida.</div>
+        <div class="plan-units" style="color:var(--red)">1-10 unidades motrices</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 8: APPS -->
+<section id="apps" class="dark-section">
+  <div class="content-wrap">
+    <div class="step-num">8</div>
+    <div class="section-label reveal">Aplicaciones 2025</div>
+    <h2 class="section-title reveal">Nuevas apps<br>con <span style="color:var(--orange)">IA integrada</span></h2>
+    <div class="apps-grid">
+      <div class="app-card reveal">
+        <div class="app-icon">🤖</div>
+        <div class="app-badge">¡NUEVA!</div>
+        <h4>IA-GM</h4>
+        <p>Asistente de inteligencia artificial que resuelve dudas sobre funciones del ERP de manera precisa y concisa.</p>
+      </div>
+      <div class="app-card reveal reveal-delay-1">
+        <div class="app-icon">📡</div>
+        <div class="app-badge">¡NUEVA!</div>
+        <h4>IA-Rastreo</h4>
+        <p>Consulta a la IA sobre información del sistema de Rastreo y el estado de las unidades registradas.</p>
+      </div>
+      <div class="app-card reveal reveal-delay-2">
+        <div class="app-icon">🗺️</div>
+        <div class="app-badge">¡NUEVA!</div>
+        <h4>Mis Viajes</h4>
+        <p>Los operadores registran solicitudes, consultan viajes asignados y notifican en tiempo real al departamento de tráfico.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 9: SOCIAL PROOF -->
+<section id="proof" class="dark2">
+  <div class="content-wrap" style="text-align:center;">
+    <div class="section-label reveal" style="text-align:center;">Presencia real</div>
+    <h2 class="section-title reveal" style="text-align:center;">Empresas de transporte<br>en <span style="color:var(--orange)">3 países confían en nosotros</span></h2>
+    <div class="sectors reveal">
+      <span class="sector-tag">🚛 Transporte Local</span>
+      <span class="sector-tag">🛣️ Viajes Nacionales</span>
+      <span class="sector-tag">🌎 Cruce Fronterizo</span>
+      <span class="sector-tag">⚓ Operación Portuaria</span>
+      <span class="sector-tag">⛽ PEMEX / Volumétricos</span>
+      <span class="sector-tag">👥 Transporte de Personal</span>
+      <span class="sector-tag">📦 Paquetería</span>
+      <span class="sector-tag">🏭 Almacenes WMS</span>
+      <span class="sector-tag">🚢 Contenedores</span>
+      <span class="sector-tag">🏃 Última Milla</span>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item reveal">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Países con presencia activa</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Módulos integrados en la plataforma</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Monitoreo satelital ininterrumpido</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-num">4G</div>
+        <div class="stat-label">Tecnología de rastreo más rápida</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASO 10: FORMULARIO -->
+<section id="formulario" class="light">
+  <div class="content-wrap">
+    <div class="step-num">10</div>
+    <div class="section-label reveal">Último paso</div>
+    <h2 class="section-title reveal" style="color:var(--dark)">Agenda tu<br><span style="color:var(--orange)">demo gratuita</span></h2>
+    <p class="section-sub reveal" style="color:var(--gray)">Un asesor especializado te contactará en menos de 24 horas para mostrarte el sistema en acción.</p>
+    
+    <div class="form-wrap reveal">
+      <div class="form-progress">
+        <div class="fp-step done" id="fp1"></div>
+        <div class="fp-step" id="fp2"></div>
+        <div class="fp-step" id="fp3"></div>
+        <div class="fp-step" id="fp4"></div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="form-step active" id="fs1">
+        <h3>Tu empresa</h3>
+        <p>Cuéntanos sobre tu operación</p>
+        <div class="form-group"><label>Nombre completo</label><input type="text" id="f-nombre" placeholder="Ej. Roberto Gutiérrez"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Nombre de la empresa</label><input type="text" id="f-empresa" placeholder="Transportes XYZ"></div>
+          <div class="form-group"><label>País de operación</label>
+            <select id="f-pais"><option value="">Selecciona...</option><option>México</option><option>Estados Unidos</option><option>Perú</option></select>
+          </div>
+        </div>
+        <div class="form-nav"><div></div><button class="btn-next" onclick="nextStep(2)">Siguiente →</button></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step" id="fs2">
+        <h3>Tu operación</h3>
+        <p>Para recomendarte la versión correcta</p>
+        <div class="form-row">
+          <div class="form-group"><label>Número de unidades</label>
+            <select id="f-unidades"><option value="">Selecciona...</option><option>1-5 unidades</option><option>6-20 unidades</option><option>21-50 unidades</option><option>51-100 unidades</option><option>+100 unidades</option></select>
+          </div>
+          <div class="form-group"><label>Tipo de operación</label>
+            <select id="f-tipo"><option value="">Selecciona...</option><option>Transporte local/nacional</option><option>Cruce fronterizo</option><option>Agente de carga</option><option>Operación portuaria</option><option>PEMEX/Volumétricos</option><option>Paquetería / Última milla</option><option>Transporte de personal</option></select>
+          </div>
+        </div>
+        <div class="form-group"><label>¿Actualmente tienes GPS en tus unidades?</label>
+          <select id="f-gps"><option value="">Selecciona...</option><option>Sí, con otro proveedor</option><option>No, me interesa el GPS de GM</option><option>No necesito GPS por ahora</option></select>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="nextStep(1)">← Atrás</button>
+          <button class="btn-next" onclick="nextStep(3)">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step" id="fs3">
+        <h3>Necesidades específicas</h3>
+        <p>Marca todo lo que te interese explorar</p>
+        <div class="form-group"><label>Módulos de interés</label>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox" value="trafico"> Tráfico y viajes</label>
+            <label class="check-item"><input type="checkbox" value="facturacion"> Facturación CFDI</label>
+            <label class="check-item"><input type="checkbox" value="gps"> GPS / Rastreo</label>
+            <label class="check-item"><input type="checkbox" value="dashcam"> Dashcam con IA</label>
+            <label class="check-item"><input type="checkbox" value="mantenimiento"> Mantenimiento</label>
+            <label class="check-item"><input type="checkbox" value="canbus"> CANBUS</label>
+            <label class="check-item"><input type="checkbox" value="paqueteria"> Paquetería</label>
+            <label class="check-item"><input type="checkbox" value="contabilidad"> Contabilidad</label>
+          </div>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="nextStep(2)">← Atrás</button>
+          <button class="btn-next" onclick="nextStep(4)">Siguiente →</button>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="form-step" id="fs4">
+        <h3>Contacto directo</h3>
+        <p>¿Cómo prefieres que te contacte un asesor?</p>
+        <div class="form-row">
+          <div class="form-group"><label>WhatsApp</label><input type="tel" id="f-wa" placeholder="+52 55 0000 0000"></div>
+          <div class="form-group"><label>Correo electrónico</label><input type="email" id="f-email" placeholder="tuemail@empresa.com"></div>
+        </div>
+        <div class="form-group"><label>¿Cuándo prefieres la llamada de demostración?</label>
+          <select id="f-cuando"><option value="">Selecciona...</option><option>Lo antes posible</option><option>Esta semana</option><option>La próxima semana</option><option>Solo quiero información por email</option></select>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="nextStep(3)">← Atrás</button>
+          <button class="btn-next" onclick="submitForm()">¡Quiero mi demo gratuita! 🚀</button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="form-step" id="fs-success">
+        <div class="success-msg">
+          <span class="success-icon">✅</span>
+          <h3>¡Solicitud enviada con éxito!</h3>
+          <p>Un asesor especializado de TIASTICA se pondrá en contacto contigo en las próximas <strong>24 horas</strong>. Mientras tanto, puedes chatear con GEMA para resolver cualquier duda.</p>
+          <a href="https://wa.link/5fwr4k" target="_blank" class="whatsapp-btn">
+            💬 Contactar por WhatsApp ahora
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>GM<span>Transport</span> Software®</h3>
+      <p>La plataforma ERP más completa para empresas de transporte. En la nube, desde cualquier dispositivo.</p>
+      <div style="margin-top:16px;display:flex;gap:10px">
+        <a href="https://www.facebook.com/TiasticaTecnologia/" target="_blank" style="color:rgba(255,255,255,0.4);font-size:13px;text-decoration:none;">Facebook</a>
+        <a href="https://www.instagram.com/tiasticamx/" target="_blank" style="color:rgba(255,255,255,0.4);font-size:13px;text-decoration:none;">Instagram</a>
+        <a href="https://www.linkedin.com/company/tiastica" target="_blank" style="color:rgba(255,255,255,0.4);font-size:13px;text-decoration:none;">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Solución</h5>
+      <a href="#modulos">Módulos ERP</a>
+      <a href="#gps">Rastreo GPS</a>
+      <a href="#dashcam">Dashcam IA</a>
+      <a href="#canbus">CANBUS</a>
+      <a href="#apps">Apps Móviles</a>
+    </div>
+    <div class="footer-col">
+      <h5>Versiones</h5>
+      <a href="#versiones">LITE</a>
+      <a href="#versiones">Agente de Carga</a>
+      <a href="#versiones">Gestión de Flotas</a>
+      <a href="#versiones">Premium / PRO</a>
+      <a href="#versiones">Hombre Camión</a>
+    </div>
+    <div class="footer-col">
+      <h5>Contacto</h5>
+      <a href="https://www.tiastica.com">www.tiastica.com</a>
+      <a href="tel:5519475252">55 1947 5252</a>
+      <a href="mailto:ventas@gmtransporterp.com">ventas@gmtransporterp.com</a>
+      <a href="https://wa.link/5fwr4k" target="_blank">WhatsApp directo</a>
+      <a href="https://rastreosatelital.com">rastreosatelital.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 TIASTICA · GM Transport Software® · Todos los derechos reservados</span>
+    <span>🇲🇽 México · 🇺🇸 USA · 🇵🇪 Perú</span>
+  </div>
+</footer>
+
+<!-- AI LIGHT WIDGET (GEMA) -->
+<button id="chat-btn" onclick="toggleChat()" title="Chatea con GEMA">
+  💬
+  <div id="chat-badge">1</div>
+</button>
+
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">G</div>
+    <div class="chat-header-info">
+      <h4>GEMA</h4>
+      <p class="chat-status">Asistente ERP Transport · En línea</p>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs"></div>
+  <div class="quick-replies" id="quick-replies"></div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." onkeypress="if(event.key==='Enter')sendMsg()">
+    <button id="chat-send" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<script>
+// ======== PROGRESS BAR & NAV DOTS ========
+const sections=['hero','perfil','dolores','modulos','gps','dashcam','canbus','versiones','apps','proof','formulario'];
+const dots=document.getElementById('nav-dots');
+sections.forEach((s,i)=>{
+  const d=document.createElement('div');
+  d.className='nav-dot';d.title=s;
+  d.onclick=()=>document.getElementById(s)?.scrollIntoView({behavior:'smooth'});
+  dots.appendChild(d);
+});
+window.addEventListener('scroll',()=>{
+  const sp=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress-bar').style.width=(sp/dh*100)+'%';
+  const ndots=document.querySelectorAll('.nav-dot');
+  sections.forEach((s,i)=>{
+    const el=document.getElementById(s);
+    if(!el)return;
+    const r=el.getBoundingClientRect();
+    if(r.top<=80&&r.bottom>80){ndots[i].className='nav-dot active';}
+    else if(r.top<0){ndots[i].className='nav-dot done';}
+    else{ndots[i].className='nav-dot';}
+  });
+});
+
+// ======== SCROLL REVEAL ========
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ======== PROFILE SELECTOR ========
+let selectedProfile='';
+function selectProfile(el,profile){
+  document.querySelectorAll('.profile-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedProfile=profile;
+  setTimeout(()=>document.getElementById('dolores').scrollIntoView({behavior:'smooth'}),300);
+}
+
+// ======== MODULES ========
+const moduleData={
+  trafico:{title:'🚛 Tráfico',items:['Viajes Nacionales','Viajes Locales','Cruces Fronterizos','Repartos','Operación Portuaria','Agente de Carga','Operación PEMEX','Volumétricos','Liquidaciones a operadores','Liquidaciones a permisionarios','Rutas y trayectos','Estatus de viaje para clientes','Anticipos y gastos','Vales de combustible','Control de autopistas','Pantalla de Aeropuerto','Inventario de equipo (disponible/ocupado)']},
+  facturacion:{title:'🧾 Facturación CFDI',items:['Timbrado automático ante el SAT','CFDI 4.0 + Complemento Carta Porte','Facturación por concepto, viaje, km, peso','Cancelaciones ante el SAT','Envío de facturas + evidencias por correo','Descarga PDF y XML','Asignación de fechas de pago','Facturación parcial y total','Addendas y centros de costos']},
+  cobranza:{title:'💰 Cobranza',items:['Pagos y abonos con complemento de pago','Notas de crédito','Auxiliar de clientes','Vencimiento de facturas','Saldos de clientes','Cobranza automática','Factoraje','Pólizas automáticas contables']},
+  bancos:{title:'🏦 Bancos',items:['Movimientos bancarios completos','Control de cheques por banco','Saldos bancarios en tiempo real','Conciliación bancaria por layouts','Transferencias, depósitos, comisiones','Generación de pólizas contables','Integración con nóminas y liquidaciones']},
+  cxp:{title:'💳 Cuentas por Pagar',items:['Pasivos manuales o por XML','Pago de pasivos y anticipados','Reposiciones y contra recibos','DIOT','Auxiliar de proveedor','Gastos mensuales','Importación masiva de XMLs']},
+  mantenimiento:{title:'🔧 Mantenimiento de Unidades',items:['Servicios preventivos por km real','Servicios correctivos','Historial de mantenimiento por unidad','Alertas de servicio próximo','Integración con odómetros GPS','Control de gastos de taller']},
+  llantas:{title:'🔄 Control de Llantas',items:['Vida útil por unidad y posición','Reemplazo basado en km reales','Historial de rotación','Costo por km de llanta','Alertas de desgaste','Inventario de llantas']},
+  inventario:{title:'📦 Inventario y Compras',items:['Inventario de refacciones','Órdenes de compra','Entradas y salidas','Control de proveedores','Costos de refacciones','Inventario de equipo (cajas, dollys, plataformas)']},
+  reportes:{title:'📈 Reportes Gerenciales',items:['Análisis de ventas e ingresos','Radiografía de viaje','Just-in-Time','Rendimiento de flotillas','Situación de la empresa','Estado de resultados','Dashboard ejecutivo']}
+};
+let activeModule='';
+function showModule(id){
+  const detail=document.getElementById('module-detail');
+  document.querySelectorAll('.module-card').forEach(c=>c.classList.remove('active'));
+  if(activeModule===id){detail.classList.remove('show');activeModule='';return;}
+  activeModule=id;
+  event.currentTarget.classList.add('active');
+  const d=moduleData[id];
+  detail.innerHTML=`<h3>${d.title}</h3><ul>${d.items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+  detail.classList.add('show');
+  setTimeout(()=>detail.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+}
+
+// ======== CANBUS ANIMATION ========
+function animateCanbus(){
+  const temps=[82,87,89,91,85,88],rpms=[1320,1420,1580,1250,1680,1420],pedals=[28,34,42,21,38,34],combs=[3.0,3.2,2.8,3.5,2.9,3.2],vels=[68,72,79,65,74,72];
+  let i=0;
+  setInterval(()=>{
+    i=(i+1)%6;
+    document.getElementById('temp-val').textContent=temps[i]+'°';
+    document.getElementById('rpm-val').textContent=rpms[i].toLocaleString();
+    document.getElementById('pedal-val').textContent=pedals[i]+'%';
+    document.getElementById('comb-val').textContent=combs[i].toFixed(1);
+    document.getElementById('vel-val').textContent=vels[i];
+  },2000);
+}
+animateCanbus();
+
+// ======== FORM ========
+let currentStep=1;
+function nextStep(n){
+  document.getElementById('fs'+currentStep).classList.remove('active');
+  currentStep=n;
+  document.getElementById('fs'+n)?.classList.add('active');
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById('fp'+i);
+    if(el)el.className='fp-step'+(i<=n?' done':'');
+  }
+}
+function submitForm(){
+  document.getElementById('fs4').classList.remove('active');
+  document.getElementById('fs-success').classList.add('active');
+  for(let i=1;i<=4;i++){const el=document.getElementById('fp'+i);if(el)el.className='fp-step done';}
+}
+function scrollToForm(){document.getElementById('formulario').scrollIntoView({behavior:'smooth'});}
+function scrollToSection(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+
+// ======== AI LIGHT — GEMA ========
+const KB={
+  'que es erp':'GM Transport Software® es el ERP en la nube para empresas de transporte. Incluye módulos de Tráfico, Facturación CFDI, Cobranza, Bancos, Cuentas por Pagar, Mantenimiento, Control de Llantas, Inventario, Indicadores y Reportes Gerenciales. Se accede desde cualquier dispositivo con Chrome, sin instalación ni servidor local.\n\n¿Te interesa algún módulo en particular?',
+  'modulos':'Los módulos principales son:\n🚛 Tráfico — control logístico integral\n🧾 Facturación — CFDI 4.0 automático\n💰 Cobranza — recuperación de cartera\n🏦 Bancos — conciliación automática\n💳 Cuentas por Pagar — control de proveedores\n🔧 Mantenimiento — servicios preventivos\n🔄 Llantas — control por km reales\n📦 Inventario — refacciones y equipo\n📈 Reportes Gerenciales — inteligencia de negocio\n\n¿Quieres que explique alguno?',
+  'gps rastreo':'Rastreo Satelital by GM Transport usa tecnología 4G con monitoreo 24/7. La integración con el ERP incluye:\n📍 Geocercas automáticas\n📊 Odómetros actualizados en tiempo real\n🗺️ Georutas con alertas de desvío\n✈️ Pantalla Aeropuerto\n👥 Usuario Espejo para clientes\n⏱️ Estimación Just-in-Time\n\n¿Te gustaría más info sobre alguna función GPS?',
+  'dashcam camara':'Nuestras dashcams incluyen:\n🎥 Cámara carretera Full HD 1080p\n👤 Cámara conductor 720p\n🧠 IA detecta: teléfono, cinturón, distracción, fumar\n☁️ 30 días de video en la nube\n📡 Módem 4G para video en vivo\n💾 Hasta 512 GB de almacenamiento\n\n¿Quieres saber cómo funcionan las alertas de IA?',
+  'canbus':'CANBUS es el lector del puerto OBD de tu unidad. Captura datos como:\n🌡️ Temperatura refrigerante y aceite\n⚙️ RPM del motor\n🦶 Ángulo del pedal acelerador\n⛽ Consumo de combustible\n🏎️ Velocidades máximas y promedio\n\nIdeal para comparar rendimiento entre unidades y rutas.',
+  'version plan precio':'Los planes disponibles son:\n\n🔵 LITE — Básico (Tráfico + Facturación + Cobranza)\n🟠 AGENTE DE CARGA — + Bancos, CxP, Indicadores\n🟢 GESTIÓN DE FLOTAS — + Mantenimiento, Llantas\n🟡 PREMIUM — Todos los módulos principales\n⚫ PRO — + Contabilidad integrada\n🔴 HOMBRE CAMIÓN — Para 1-10 unidades\n\nLos precios dependen de usuarios y módulos adicionales. ¿Quieres que un asesor te cotice?',
+  'demo cotizacion':'¡Perfecto! Para agendar tu demo gratuita necesito algunos datos:\n\n📝 ¿Cómo se llama tu empresa?\n🚛 ¿Cuántas unidades tienen?\n🌎 ¿En qué país operan?\n📱 ¿Tu WhatsApp o email de contacto?\n\nUn asesor te contactará en menos de 24 horas.',
+  'hombre camion':'El plan Hombre Camión está diseñado para transportistas independientes con 1 a 10 unidades motrices. Incluye:\n✅ Carta Porte y CFDI\n✅ Complemento Carta Porte\n✅ Importación desde Excel\n✅ Catálogos de unidades y operadores\n✅ Pólizas contables\n✅ Cuentas por cobrar y pagos\n\n¿Eres operador independiente o permisionario?',
+  'paqueteria':'Tenemos un módulo especializado de Paquetería que incluye:\n📦 Recolección de paquetes\n🧾 Guías y facturación\n💰 Tarifarios por cliente\n🗺️ Ruteo y optimización de rutas\n📱 App móvil incluida\n🏪 Manejo de sucursales y zonas\n🔍 Tracking de paquete\n⚡ Gestión de última milla\n\n¿Manejas mensajería o paquetería?',
+  'apps movil':'Hay 3 nuevas apps para 2025:\n\n🤖 IA-GM — Asistente de IA que resuelve dudas del ERP\n📡 IA-Rastreo — Consultas de rastreo y unidades por IA\n🗺️ Mis Viajes — App para operadores (viajes, solicitudes, notificaciones)\n\n¡Todo integrado con el sistema GM Transport!',
+  'paises mexico':'Tenemos presencia en 🇲🇽 México, 🇺🇸 Estados Unidos y 🇵🇪 Perú. Atendemos operaciones locales, nacionales, cruces fronterizos y operaciones portuarias en los tres países.',
+  'default':'Soy GEMA, el asistente virtual de ERP Transport 🚛\n\nPuedo ayudarte con información sobre módulos del ERP, Rastreo GPS, Dashcam con IA, CANBUS, versiones y precios.\n\n¿Sobre qué tema te puedo orientar?'
+};
+
+const quickReplies=[
+  ['¿Qué módulos incluye?','modulos'],
+  ['¿Cómo funciona el GPS?','gps rastreo'],
+  ['¿Qué versión necesito?','version plan precio'],
+  ['Quiero una demo','demo cotizacion'],
+  ['¿Tienen dashcam?','dashcam camara']
+];
+
+let chatOpen=false,chatInitialized=false;
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chat-window').classList.toggle('open',chatOpen);
+  document.getElementById('chat-badge').style.display='none';
+  if(chatOpen&&!chatInitialized){initChat();}
+}
+function initChat(){
+  chatInitialized=true;
+  addMsg('bot','¡Hola! Soy <b>GEMA</b>, tu asistente de ERP Transport. Estoy aquí para ayudarte a conocer nuestra plataforma y resolver tus dudas. ¿Cómo puedo ayudarte hoy?');
+  showQuickReplies();
+}
+function addMsg(who,text){
+  const msgs=document.getElementById('chat-msgs');
+  const div=document.createElement('div');
+  div.className='msg '+who;
+  div.innerHTML=`<div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function showQuickReplies(){
+  const qr=document.getElementById('quick-replies');
+  qr.innerHTML='';
+  quickReplies.forEach(([label,key])=>{
+    const btn=document.createElement('button');
+    btn.className='qr';btn.textContent=label;
+    btn.onclick=()=>{qr.innerHTML='';addMsg('user',label);processMsg(key);};
+    qr.appendChild(btn);
+  });
+}
+function showTyping(){
+  const msgs=document.getElementById('chat-msgs');
+  const div=document.createElement('div');
+  div.className='msg bot';div.id='typing';
+  div.innerHTML='<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+function removeTyping(){document.getElementById('typing')?.remove();}
+function processMsg(key){
+  showTyping();
+  const delay=800+Math.random()*600;
+  setTimeout(()=>{
+    removeTyping();
+    const response=getResponse(key);
+    addMsg('bot',response);
+    showQuickReplies();
+  },delay);
+}
+function getResponse(input){
+  const low=input.toLowerCase();
+  if(low.includes('modulo')||low.includes('módulo'))return KB.modulos;
+  if(low.includes('gps')||low.includes('rastreo')||low.includes('satelit'))return KB['gps rastreo'];
+  if(low.includes('dashcam')||low.includes('camara')||low.includes('video'))return KB['dashcam camara'];
+  if(low.includes('canbus')||low.includes('obd')||low.includes('diagnos'))return KB.canbus;
+  if(low.includes('version')||low.includes('plan')||low.includes('precio')||low.includes('costo')||low.includes('cuanto'))return KB['version plan precio'];
+  if(low.includes('demo')||low.includes('cotiz')||low.includes('asesor')||low.includes('contacto'))return KB['demo cotizacion'];
+  if(low.includes('hombre camion')||low.includes('permisionario')||low.includes('independiente'))return KB['hombre camion'];
+  if(low.includes('paqueter')||low.includes('mensajeria')||low.includes('ultima milla'))return KB.paqueteria;
+  if(low.includes('app')||low.includes('movil')||low.includes('celular'))return KB['apps movil'];
+  if(low.includes('mexico')||low.includes('pais')||low.includes('peru')||low.includes('usa'))return KB.paises;
+  if(low.includes('erp')||low.includes('sistema')||low.includes('que es')||low.includes('software'))return KB['que es erp'];
+  return KB.default;
+}
+function sendMsg(){
+  const input=document.getElementById('chat-input');
+  const text=input.value.trim();
+  if(!text)return;
+  document.getElementById('quick-replies').innerHTML='';
+  addMsg('user',text);
+  input.value='';
+  processMsg(text);
+}
+</script>
+</body>
+</html>
