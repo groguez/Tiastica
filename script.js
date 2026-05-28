@@ -1132,15 +1132,20 @@
 
     /* Global opening hooks */
     window.openCockpit = function(platformId) {
+      console.log('[Cockpit] Opening for platform:', platformId);
       const mapped = PLATFORMS_MAPPING[platformId] || 'geo';
+      console.log('[Cockpit] Mapped to:', mapped);
       activePlatformIdx = PLATFORMS_DECK.indexOf(mapped);
+      console.log('[Cockpit] Active index:', activePlatformIdx, 'PLATFORMS_DECK:', PLATFORMS_DECK);
       
       overlay.removeAttribute('hidden');
+      console.log('[Cockpit] Overlay hidden attr removed');
 
       requestAnimationFrame(() => {
 
         overlay.classList.add('is-active');
         overlay.setAttribute('aria-hidden', 'false');
+        console.log('[Cockpit] Overlay is-active class added, aria-hidden=false');
 
         document.body.style.overflow = 'hidden';
 
@@ -1151,6 +1156,7 @@
         });
 
         updateCockpitView();
+        console.log('[Cockpit] updateCockpitView called');
 
       });
     };
