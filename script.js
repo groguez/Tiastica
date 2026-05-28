@@ -1153,34 +1153,48 @@
       activePlatformIdx = PLATFORMS_DECK.indexOf(mapped);
       console.log('[Cockpit] Active index:', activePlatformIdx, 'PLATFORMS_DECK:', PLATFORMS_DECK);
       
-      // CRITICAL: Hide/minimize Orb when cockpit opens
+      // 1. FORZAR VISIBILIDAD DEL COCKPIT CON ESTILOS EN LÍNEA (Máxima prioridad)
+      overlay.style.display = 'flex';
+      overlay.style.visibility = 'visible';
+      overlay.style.opacity = '1';
+      overlay.style.zIndex = '2147483647'; // Máximo posible
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      console.log('[Cockpit] Overlay inline styles forced');
+      
+      // 2. MINIMIZAR EL ORB PARA QUE NO COMPITA
       const orbNav = document.querySelector('.orb-nav');
       if (orbNav) {
         orbNav.setAttribute('data-state', 'latent');
         orbNav.setAttribute('data-origin', 'latent');
-        console.log('[Cockpit] Orb set to latent state');
+        orbNav.style.zIndex = '0';
+        orbNav.style.pointerEvents = 'none';
+        orbNav.style.opacity = '0.2';
+        console.log('[Cockpit] Orb set to latent and minimized');
       }
       
+      // 3. REMOVER HIDDEN Y AÑADIR CLASES
       overlay.removeAttribute('hidden');
       console.log('[Cockpit] Overlay hidden attr removed');
 
       requestAnimationFrame(() => {
-
         overlay.classList.add('is-active');
         overlay.setAttribute('aria-hidden', 'false');
         console.log('[Cockpit] Overlay is-active class added, aria-hidden=false');
 
         document.body.style.overflow = 'hidden';
 
-        /* Bind feature card clicks AFTER overlay is visible (critical fix) */
+        /* Bind feature card clicks AFTER overlay is visible */
         $$('.btn-console-card').forEach(btn => {
           btn.removeEventListener('click', handleFeatureClick);
           btn.addEventListener('click', handleFeatureClick);
         });
 
         updateCockpitView();
-        console.log('[Cockpit] updateCockpitView called');
-
+        console.log('[Cockpit] Open sequence completed');
       });
     };
     
