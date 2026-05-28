@@ -980,7 +980,7 @@ ul{list-style:none}button{cursor:pointer;font-family:inherit}
 .cockpit-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9999 !important;
+  z-index: 10002 !important;
   background: radial-gradient(circle at center, rgba(8, 12, 24, 0.98) 0%, rgba(4, 5, 10, 1) 100%);
   display: none !important;
   flex-direction: column;
